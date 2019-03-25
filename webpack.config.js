@@ -1,8 +1,8 @@
 var path = require('path');
 
 var env = {
-  dev: true
-}
+  dev: false
+};
 
 module.exports = {
   mode: env.dev ? 'development' : 'production',
