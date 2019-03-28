@@ -28,15 +28,15 @@ export class GraphApp {
         this.element.appendChild(this.svg);
         this.graphContext = new Context(this.svg);
         this.graph = new GraphModel(this.graphContext);
-        test(this.graph);
+        test(this.graph, this.graphContext);
     }
 }
 
-var test = function (graph: GraphModel) {
+var test = function (graph: GraphModel, ctx: Context) {
     let v1 = graph.addVertex('default', 200, 200);
     let v2 = graph.addVertex('default', 200, 0);
     graph.addEdge(v1, v2);
-    
+
 
     v2 = graph.addVertex('default', 400, 200);
     graph.addEdge(v1, v2);
@@ -44,10 +44,9 @@ var test = function (graph: GraphModel) {
     v2 = graph.addVertex('default', 0, 200);
     graph.addEdge(v1, v2);
 
-    
+
     v2 = graph.addVertex('default', 200, 400);
     graph.addEdge(v1, v2);
-
 }
 
 window['tsGraph'] = GraphApp;
