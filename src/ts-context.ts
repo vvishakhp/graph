@@ -1,14 +1,8 @@
 import { TSVertexRegistry as VertexRegistry } from "./graph/ts-vertex-reg";
-import { EdgeRegisry } from "./graph/ts-edge-reg";
 import { TemplateHandler } from "./util/ts-template";
-
-export interface IElementContainer {
-    element: SVGElement;
-}
 
 export class Context {
     public vertexReg = new VertexRegistry(this);
-    public edgeReg = new EdgeRegisry(this);
 
     private edgeGroup: SVGGElement;
     private vertexGroup: SVGGElement;

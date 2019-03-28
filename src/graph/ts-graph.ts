@@ -1,36 +1,50 @@
-import { TSVertexRegistry } from "./ts-vertex-reg";
-import { EdgeRegisry } from "./ts-edge-reg";
-import { Utils } from "../util/ts-utils";
 import { Context } from "../ts-context";
 import { Vertex } from "./ts-vertex";
 import { Point } from "../util/ts-point";
+import { Edge } from "./ts-edge";
 
 export class GraphModel {
 
     private vertices: Array<Vertex> = [];
-    private edges: Array<any> = [];
+    private edges: Array<Edge> = [];
 
-    constructor(public context: Context) {
+    constructor(public context: Context) { }
 
-    }
-
-    public addVertex(type?: string, id?: string, x?: number, y?: number) {
-        const vert = new Vertex(this.context);
+    public addVertex(type: string = 'default', x?: number, y?: number) {
+        const vert = new Vertex(this.context, type);
         this.vertices.push(vert);
-        console.log(vert.BBox);
-        vert.moveTo(new Point(20, 20))
+        vert.moveTo(new Point(x, y));
+        return vert;
     }
 
-    public addEdge() {
-
+    public addEdge(from: Vertex | string, to: Vertex | string) {
+        const edge = new Edge(this.context,
+            (typeof from === 'string') ? this.findVertex(from) : from,
+            (typeof to === 'string') ? this.findVertex(to) : to);
+        this.edges.push(edge);
+        return edge;
     }
 
-    public removeEdge() {
-
+    public removeEdge(edge: Edge | string) {
+        let e = ((typeof edge === 'string') ? this.findEdge(edge) : edge);
+        this.edges.splice(this.edges.indexOf(e), 1);
+        e.dispose();
+        e = null;
     }
 
-    public removeVetrex() {
-
+    public removeVetrex(vertex: string | Vertex) {
+        let v = ((typeof vertex === 'string') ? this.findVertex(vertex) : vertex);
+        this.vertices.splice(this.vertices.indexOf(v), 1);
+        v.dispose();
+        v = null;
     }
 
+
+    public findEdge(id: string): Edge {
+        return this.edges.find(e => e.id === id);
+    }
+
+    public findVertex(id: string): Vertex {
+        return this.vertices.find(v => v.id === id);
+    }
 }

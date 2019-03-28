@@ -1,7 +1,7 @@
 var path = require('path');
 
 var env = {
-  dev: false
+  dev: true
 };
 
 module.exports = {
