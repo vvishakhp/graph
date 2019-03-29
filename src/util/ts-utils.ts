@@ -68,7 +68,6 @@ export class Utils {
     public static findAutoEdge(rect1: SVGRect, rect2: SVGRect): { p1: number, p2: number } {
         let p1 = 0;
         let p2 = 0;
-        console.log(Utils.rectCentre(rect1));
         if (Utils.isAboveOf(rect1, rect2)) {
             p1 = 0.5;
             p2 = 0;

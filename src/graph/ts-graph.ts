@@ -2,13 +2,16 @@ import { Context } from "../ts-context";
 import { Vertex } from "./ts-vertex";
 import { Point } from "../util/ts-point";
 import { Edge } from "./ts-edge";
+import { Overlay } from "./ts-overlay";
 
 export class GraphModel {
 
     private vertices: Array<Vertex> = [];
     private edges: Array<Edge> = [];
 
-    constructor(public context: Context) { }
+    constructor(public context: Context) {
+        context.setGraphModel(this);
+    }
 
     public addVertex(type: string = 'default', x?: number, y?: number) {
         const vert = new Vertex(this.context, type);
@@ -46,5 +49,14 @@ export class GraphModel {
 
     public findVertex(id: string): Vertex {
         return this.vertices.find(v => v.id === id);
+    }
+
+    public findOverlay(id: string): Overlay {
+        // TODO - Impliment find overlay
+        return null
+    }
+
+    findItem(id: string): Edge | Vertex | Overlay {
+        return this.findEdge(id) || this.findVertex(id) || this.findOverlay(id);
     }
 }
