@@ -86,4 +86,10 @@ export class Utils {
             p2: p2 + 0.125
         };
     }
+
+    public static calcCurvePoints(p1: Point, p2: Point, fromP: number, toP: number): Point[] {
+        const points: Point[] = [];
+        points.push(p1);
+        return points;
+    }
 }

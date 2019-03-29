@@ -3,12 +3,11 @@ import { Point } from "../util/ts-point";
 import { Vertex } from "./ts-vertex";
 import { Utils } from "../util/ts-utils";
 
+export type EdgeType = 'straight' | 'curved' | 'bend';
+
 export class Edge {
 
     public readonly id = Utils.newId();
-
-    private start = new Point();
-    private end = new Point();
 
     public el: SVGPathElement;
 
@@ -19,12 +18,14 @@ export class Edge {
     public fromPoint: Point;
     private pathData: string;
 
-    toPoint: Point = new Point();
+    public toPoint: Point = new Point();
 
-    public constructor(private ctx: Context, private fromVert: Vertex, private toVert: Vertex, from: number = -1, to: number = -1) {
+    public constructor(private ctx: Context, private fromVert: Vertex, private toVert: Vertex, private edgeType: EdgeType = 'straight', private from: number = -1, private to: number = -1) {
         let autoP = Utils.findAutoEdge(this.fromVert.BBox, this.toVert.BBox);
-        this.setStart(from < 0 ? autoP.p1 : from);
-        this.setEnd(to < 0 ? autoP.p2 : to);
+        from = from < 0 ? autoP.p1 : from
+        this.setStart(from);
+        to = to < 0 ? autoP.p2 : to
+        this.setEnd(to);
         this.create();
     }
 
@@ -48,10 +49,16 @@ export class Edge {
     }
 
     private calcPath() {
-        const points: string[] = [];
-        points.push('M' + this.fromPoint.toString());
-        points.push('L' + this.toPoint.toString());
-        this.pathData = points.join(' ');
+        if (this.edgeType === 'straight') {
+            const points: string[] = [];
+            points.push('M' + this.fromPoint.toString());
+            points.push('L' + this.toPoint.toString());
+            this.pathData = points.join(' ');
+        } else if (this.edgeType === 'curved') {
+            const p = Utils.calcCurvePoints(this.fromPoint, this.toPoint, this.from, this.to);
+        } else if (this.edgeType === 'bend') {
+
+        }
     }
 
     dispose() {
