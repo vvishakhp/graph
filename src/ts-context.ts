@@ -84,7 +84,6 @@ export class Context {
     }
 
     private async updateSvgSize() {
-        debugger
         const b1 = this.vertexGroup.getBBox(), b2 = this.edgeGroup.getBBox();
         const x = Math.max(b1.x + b1.width, b2.x + b2.width, this.width);
         const y = Math.max(b1.y + b1.height, b2.y + b2.height, this.height);
