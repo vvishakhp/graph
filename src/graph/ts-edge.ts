@@ -3,7 +3,7 @@ import { Point } from "../util/ts-point";
 import { Vertex } from "./ts-vertex";
 import { Utils } from "../util/ts-utils";
 
-export type EdgeType = 'straight' | 'curved' | 'bend';
+export type EdgeType = 'straight' | 'curved' | 'polyline';
 
 export class Edge {
 
@@ -48,6 +48,11 @@ export class Edge {
         return this;
     }
 
+    public setEdgeType(type: EdgeType) {
+        this.edgeType = this.edgeType;
+        this.calcPath();
+    }
+
     private calcPath() {
         if (this.edgeType === 'straight') {
             const points: string[] = [];
@@ -55,9 +60,10 @@ export class Edge {
             points.push('L' + this.toPoint.toString());
             this.pathData = points.join(' ');
         } else if (this.edgeType === 'curved') {
-            const p = Utils.calcCurvePoints(this.fromPoint, this.toPoint, this.from, this.to);
-        } else if (this.edgeType === 'bend') {
-
+            // const p = Utils.calcCurvePoints(this.fromPoint, this.toPoint, this.from, this.to);
+            throw new Error('Curved edge is not implimented yet');
+        } else if (this.edgeType === 'polyline') {
+            
         }
     }
 

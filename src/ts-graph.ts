@@ -1,5 +1,7 @@
 import { GraphModel } from "./graph/ts-graph";
 import { Context } from "./ts-context";
+import { PathUtil } from "./util/ts-path";
+import { Point } from "./util/ts-point";
 export class GraphApp {
 
     private element: HTMLElement;
@@ -30,29 +32,26 @@ export class GraphApp {
     }
 }
 
-var test = async function (graph: GraphModel, ctx: Context) {
-    console.time('draw');
-    for (var i = 0; i < 100; i++) {
-        
-        let v1 = graph.addVertex('default', 200, 200);
-        let v2 = graph.addVertex('default', 200, 0);
-        
+var test = async function (graph: GraphModel, ctx: Context, x: number = 0, y: number = 0) {
 
-        graph.addEdge(v1, v2);
+    if (y > 100) return;
+
+    let v1 = graph.addVertex('default', x * 200, 200);
+    let v2 = graph.addVertex('default', x * 500, 400);
 
 
-        v2 = graph.addVertex('default', 400, 200);
-        graph.addEdge(v1, v2);
-
-        v2 = graph.addVertex('default', 0, 200);
-        graph.addEdge(v1, v2);
+    var e = graph.addEdge(v1, v2); e.setStart(0.3);
 
 
-        v2 = graph.addVertex('default', 200, 400);
-        graph.addEdge(v1, v2);
-    }
-    console.timeEnd('draw');
+    v2 = graph.addVertex('default', x * 400, 200);
+    graph.addEdge(v1, v2);
 
+    v2 = graph.addVertex('default', 0, 200);
+    graph.addEdge(v1, v2);
+
+
+    v2 = graph.addVertex('default', x * 200, 400);
+    graph.addEdge(v1, v2);
 }
 
 window['tsGraph'] = GraphApp;
