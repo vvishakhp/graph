@@ -88,8 +88,27 @@ export class Utils {
     }
 
     public static calcCurvePoints(p1: Point, p2: Point, fromP: number, toP: number): Point[] {
+        // TODO -
+        throw new Error('Not implimented');
+        return null;
+    }
+
+    public static calcPolyPoints(start: Point, end: Point, startP: number, endP: number, ): Point[] {
         const points: Point[] = [];
-        points.push(p1);
+        points.push(start);
+        points.push(this.translatePointForPercent(start, startP, 10));
+        points.push(this.translatePointForPercent(end, endP, 10));
+        points.push(end);
         return points;
+    }
+
+    public static translatePointForPercent(point: Point, p: number, translate: number): Point {
+        p = (p % 1) / .25;
+        let x = 0, y = 0;
+        if (p < 1) y = -translate;
+        else if (p < 2) x = translate;
+        else if (p < 3) y = translate;
+        else x = -translate;
+        return point.clone().moveBy(x, y);
     }
 }

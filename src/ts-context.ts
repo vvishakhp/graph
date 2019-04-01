@@ -87,8 +87,8 @@ export class Context {
         const b1 = this.vertexGroup.getBBox(), b2 = this.edgeGroup.getBBox();
         const x = Math.max(b1.x + b1.width, b2.x + b2.width, this.width);
         const y = Math.max(b1.y + b1.height, b2.y + b2.height, this.height);
-        (x !== this.width) && ((this.width = x + 100)) || (this.svg.style.width = this.width + 'px');
-        (y !== this.height) && ((this.height = y + 100)) || (this.svg.style.height = this.height + 'px');
+        (x !== this.width) && ((this.width = x + 500)) || (this.svg.style.width = this.width + 'px');
+        (y !== this.height) && ((this.height = y + 500)) || (this.svg.style.height = this.height + 'px');
     }
 
 }

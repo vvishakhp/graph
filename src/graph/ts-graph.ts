@@ -20,7 +20,7 @@ export class GraphModel {
         return vert;
     }
 
-    public addEdge(from: Vertex | string, to: Vertex | string) {
+    public addEdge(from: Vertex | string, to: Vertex | string): Edge {
         const edge = new Edge(this.context,
             (typeof from === 'string') ? this.findVertex(from) : from,
             (typeof to === 'string') ? this.findVertex(to) : to);
@@ -53,6 +53,7 @@ export class GraphModel {
 
     public findOverlay(id: string): Overlay {
         // TODO - Impliment find overlay
+        // throw new Error('Not implimented');
         return null
     }
 

@@ -32,26 +32,15 @@ export class GraphApp {
     }
 }
 
-var test = async function (graph: GraphModel, ctx: Context, x: number = 0, y: number = 0) {
-
-    if (y > 100) return;
-
-    let v1 = graph.addVertex('default', x * 200, 200);
-    let v2 = graph.addVertex('default', x * 500, 400);
+var test = async function (graph: GraphModel, ctx: Context) {
 
 
-    var e = graph.addEdge(v1, v2); e.setStart(0.3);
+    let v1 = graph.addVertex('default', 150, 150);
+    let v2 = graph.addVertex('default', 300, 400);
 
+    const _e = graph.addEdge(v1, v2);
+    // _e.setEdgeType('polyline');
 
-    v2 = graph.addVertex('default', x * 400, 200);
-    graph.addEdge(v1, v2);
-
-    v2 = graph.addVertex('default', 0, 200);
-    graph.addEdge(v1, v2);
-
-
-    v2 = graph.addVertex('default', x * 200, 400);
-    graph.addEdge(v1, v2);
 }
 
 window['tsGraph'] = GraphApp;

@@ -2,6 +2,7 @@ import { Context } from "../ts-context";
 import { Point } from "../util/ts-point";
 import { Vertex } from "./ts-vertex";
 import { Utils } from "../util/ts-utils";
+import { PathUtil } from "../util/ts-path";
 
 export type EdgeType = 'straight' | 'curved' | 'polyline';
 
@@ -15,12 +16,12 @@ export class Edge {
 
     private cornerRadius = 3;
 
-    public fromPoint: Point;
+    public startPoint: Point;
     private pathData: string;
 
-    public toPoint: Point = new Point();
+    public endPoint: Point = new Point();
 
-    public constructor(private ctx: Context, private fromVert: Vertex, private toVert: Vertex, private edgeType: EdgeType = 'straight', private from: number = -1, private to: number = -1) {
+    public constructor(private ctx: Context, private fromVert: Vertex, private toVert: Vertex, private edgeType: EdgeType = 'polyline', private from: number = -1, private to: number = -1) {
         let autoP = Utils.findAutoEdge(this.fromVert.BBox, this.toVert.BBox);
         from = from < 0 ? autoP.p1 : from
         this.setStart(from);
@@ -37,33 +38,39 @@ export class Edge {
     }
 
     public setStart(from: number): Edge {
-        this.fromPoint = Utils.calcPointInRect(this.fromVert.BBox, from);
+        this.startPoint = Utils.calcPointInRect(this.fromVert.BBox, from);
         this.calcPath();
         return this;
     }
 
     public setEnd(p: number): Edge {
-        this.toPoint = Utils.calcPointInRect(this.toVert.BBox, p);
+        this.endPoint = Utils.calcPointInRect(this.toVert.BBox, p);
         this.calcPath();
         return this;
     }
 
     public setEdgeType(type: EdgeType) {
-        this.edgeType = this.edgeType;
-        this.calcPath();
+        this.edgeType = type;
+        this.updateAttr();
     }
 
     private calcPath() {
         if (this.edgeType === 'straight') {
             const points: string[] = [];
-            points.push('M' + this.fromPoint.toString());
-            points.push('L' + this.toPoint.toString());
+            points.push('M' + this.startPoint.toString());
+            points.push('L' + this.endPoint.toString());
             this.pathData = points.join(' ');
         } else if (this.edgeType === 'curved') {
             // const p = Utils.calcCurvePoints(this.fromPoint, this.toPoint, this.from, this.to);
             throw new Error('Curved edge is not implimented yet');
         } else if (this.edgeType === 'polyline') {
+            let path: PathUtil;
             
+            Utils.calcPolyPoints(this.startPoint, this.endPoint, this.from, this.to).forEach(p => {
+                debugger
+                path ? path.lineTo(p) : path = new PathUtil(p);
+            });
+            this.pathData = path.getPath();
         }
     }
 

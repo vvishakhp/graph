@@ -20,4 +20,10 @@ export class Point {
         const t = Math.floor((n + denominator - 1) / denominator)
         return t * denominator;
     }
+
+    public moveBy(x: number, y: number) {
+        this.x += x;
+        this.y += y;
+        return this;
+    }
 }
