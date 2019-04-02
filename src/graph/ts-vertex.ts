@@ -26,12 +26,15 @@ export class Vertex {
     }
 
     moveTo(x: number | Point, y: number = 0) {
+        const box = this.BBox;
+        
         if (typeof x === 'number') {
             this.position.x = x;
             this.position.y = y;
         } else {
             this.position = x.clone();
         }
+        this.position.moveBy(box.width / -2, box.height / -2);
         this.applyTransform();
     }
 
@@ -84,7 +87,6 @@ export class Vertex {
         bb.x = xMin; bb.width = xMax - xMin;
         bb.y = yMin; bb.height = yMax - yMin;
         return bb;
-
     }
 
     public getMatrix(toElement: SVGGraphicsElement) {

@@ -2,6 +2,7 @@ import { GraphModel } from "./graph/ts-graph";
 import { Context } from "./ts-context";
 import { PathUtil } from "./util/ts-path";
 import { Point } from "./util/ts-point";
+import { Utils } from "./util/ts-utils";
 export class GraphApp {
 
     private element: HTMLElement;
@@ -34,9 +35,8 @@ export class GraphApp {
 
 var test = async function (graph: GraphModel, ctx: Context) {
 
-
-    let v1 = graph.addVertex('default', 150, 150);
-    let v2 = graph.addVertex('default', 300, 400);
+    let v1 = graph.addVertex('default', 100, 100);
+    let v2 = graph.addVertex('default', 100, 300);
 
     const _e = graph.addEdge(v1, v2);
     // _e.setEdgeType('polyline');

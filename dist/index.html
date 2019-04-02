@@ -9,25 +9,24 @@
     <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script>
     <style>
         html,
-        body,
-        #graph {
+        body {
             margin: 0;
             padding: 0;
             height: 100vh;
             width: 100vw;
+            overflow: hidden;
         }
 
         #graph {
             background-color: gray;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            margin: auto;
+            overflow: auto;
+            height: 100%;
+            width: 100%;
         }
 
         svg {
             background-color: white;
-            height: 500px;
-            width: 500px;
         }
     </style>
 </head>

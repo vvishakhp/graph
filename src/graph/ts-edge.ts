@@ -21,31 +21,38 @@ export class Edge {
 
     public endPoint: Point = new Point();
 
-    public constructor(private ctx: Context, private fromVert: Vertex, private toVert: Vertex, private edgeType: EdgeType = 'polyline', private from: number = -1, private to: number = -1) {
+    private from: number;
+    private to: number;
+
+    public constructor(private ctx: Context, private fromVert: Vertex, private toVert: Vertex,
+        private edgeType: EdgeType = 'straight', from: number = -1, to: number = -1) {
         let autoP = Utils.findAutoEdge(this.fromVert.BBox, this.toVert.BBox);
-        from = from < 0 ? autoP.p1 : from
-        this.setStart(from);
-        to = to < 0 ? autoP.p2 : to
-        this.setEnd(to);
+
+        this.from = (from < 0) ? autoP.p1 : this.from;
+        this.to = (to < 0) ? autoP.p2 : this.to;
+        this.setStart(from, false);
+        this.setEnd(to, false);
+
         this.create();
     }
 
     private create() {
         this.el = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        this.ctx.addEdgeElement(this.el);
-        this.update();
         this.el.setAttribute('data-id', this.id);
+        this.update();
+        this.ctx.addEdgeElement(this.el);
     }
 
-    public setStart(from: number): Edge {
+    public setStart(from: number, update: boolean = true): Edge {
         this.startPoint = Utils.calcPointInRect(this.fromVert.BBox, from);
-        this.calcPath();
+        debugger
+        update && this.calcPath();
         return this;
     }
 
-    public setEnd(p: number): Edge {
+    public setEnd(p: number, update: boolean = true): Edge {
         this.endPoint = Utils.calcPointInRect(this.toVert.BBox, p);
-        this.calcPath();
+        update && this.calcPath();
         return this;
     }
 
@@ -65,9 +72,8 @@ export class Edge {
             throw new Error('Curved edge is not implimented yet');
         } else if (this.edgeType === 'polyline') {
             let path: PathUtil;
-            
+            Utils.markPoint(this.ctx.svg, Utils.calcPolyPoints(this.startPoint, this.endPoint, this.from, this.to))
             Utils.calcPolyPoints(this.startPoint, this.endPoint, this.from, this.to).forEach(p => {
-                debugger
                 path ? path.lineTo(p) : path = new PathUtil(p);
             });
             this.pathData = path.getPath();

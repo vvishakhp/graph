@@ -2,11 +2,12 @@ import { TSVertexRegistry as VertexRegistry } from "./graph/ts-vertex-reg";
 import { TemplateHandler } from "./util/ts-template";
 import { MouseHandler, MouseEventItemType, MouseEventType } from "./interactions/ts-mouse";
 import { GraphModel } from "./graph/ts-graph";
+import { S_IFREG } from "constants";
 
 export class Context {
 
-    height: number = 100;
-    width: number = 100;
+    public height: number = 500;
+    public width: number = 500;
 
     public vertexReg = new VertexRegistry(this);
 
@@ -19,6 +20,8 @@ export class Context {
     public mouseHandler = new MouseHandler(this);
 
     private graph: GraphModel;
+
+    private zoomLevel = 0;
 
     constructor(public svg: SVGSVGElement) {
         this.createGroups();
@@ -42,7 +45,7 @@ export class Context {
 
         this.svg.appendChild(g);
 
-        g.setAttributeNS(null, 'transform', 'translate(10 10)');
+        // g.setAttributeNS(null, 'transform', 'translate(10 10)');
 
         this.edgeGroup.setAttributeNS(null, 'id', 'edgeGroup');
         this.vertexGroup.setAttributeNS(null, 'id', 'vertexGroup');
@@ -83,12 +86,23 @@ export class Context {
         this.mouseHandler.fire(evtType, type, { component: this.graph.findItem(id), evt: evt, id: id });
     }
 
-    private async updateSvgSize() {
-        const b1 = this.vertexGroup.getBBox(), b2 = this.edgeGroup.getBBox();
-        const x = Math.max(b1.x + b1.width, b2.x + b2.width, this.width);
-        const y = Math.max(b1.y + b1.height, b2.y + b2.height, this.height);
-        (x !== this.width) && ((this.width = x + 500)) || (this.svg.style.width = this.width + 'px');
-        (y !== this.height) && ((this.height = y + 500)) || (this.svg.style.height = this.height + 'px');
+    private updateSvgSize() {
+        new Promise((resolve, reject) => {
+            const b1 = this.vertexGroup.getBBox(), b2 = this.edgeGroup.getBBox();
+            const x = Math.max(b1.width, b2.width, this.width);
+            const y = Math.max(b1.height, b2.height, this.height);
+            if (x !== this.width) {
+                this.width = x + 500;
+            }
+            if (y !== this.height) {
+                this.height = y + 500;
+            }
+            this.svg.style.width = this.width + 'px';
+            this.svg.style.height = this.height + 'px';
+        }).then();
     }
 
+    public setZoom(z = 0) {
+
+    }
 }
