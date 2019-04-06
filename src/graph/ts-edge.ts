@@ -2,6 +2,7 @@ import { Vertex } from "./ts-vertex";
 import { UiItem } from "./ts-ui-item";
 import { newId } from "../util/misc";
 import { IPathHelper } from "../util/path/ts-path";
+import { Context } from "./ts-context";
 
 export enum EdgeType {
     STRAIGHT,
@@ -15,8 +16,8 @@ export class Edge extends UiItem {
 
     private pathHelper: IPathHelper;
 
-    constructor(from: Vertex, to: Vertex, type: EdgeType) {
-        super();
+    constructor(ctx: Context, from: Vertex, to: Vertex, type: EdgeType) {
+        super(ctx, 'edge');
     }
 
     async create() {

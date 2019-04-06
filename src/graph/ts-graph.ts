@@ -19,6 +19,6 @@ export class Graph {
     }
 
     public get model() {
-
+        return this.model;
     }
 }
