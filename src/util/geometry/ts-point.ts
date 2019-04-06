@@ -26,4 +26,17 @@ export class Point {
         this.y += y;
         return this;
     }
+
+    public mark(svg: SVGSVGElement) {
+        const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttributeNS(null, 'cx', this.x + '');
+        c.setAttributeNS(null, 'cy', this.y + '');
+        c.setAttributeNS(null, 'fill', 'red');
+        c.setAttributeNS(null, 'r', '3');
+        svg.appendChild(c);
+    }
+
+    public transpose() {
+        return new Point(this.y, this.x);
+    }
 }

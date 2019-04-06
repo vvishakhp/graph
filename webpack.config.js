@@ -6,7 +6,7 @@ var env = {
 
 module.exports = {
   mode: env.dev ? 'development' : 'production',
-  entry: './src/ts-graph',
+  entry: './src/index',
   devtool: 'inline-source-map',
   output: {
     filename: 'ts-graph.js',
