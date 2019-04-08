@@ -26,16 +26,16 @@ export const defaultVertex =
     `<rect height="60" width="120" fill="#43c7fa" x="-60" y="-30" rx="5" ry="5"></rect>
     <text fill="#fefffe" text-anchor="middle"><tspan>Test</tspan></text>`;
 
-export const start = `<circle r="40" stroke="black" stroke-width="3" fill="green" />`;
+export const start = `<circle r="10" fill="green" />`;
 
-export const end = `<circle r="40" stroke="black" stroke-width="3" fill="red" />`;
+export const end = `<circle r="10" fill="red" />`;
 
 export const arrow_marker = `<marker id="arrow" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 10"
 refX="1" refY="5" 
 markerUnits="strokeWidth"
 markerWidth="5" markerHeight="5"
 orient="auto">
-<path d="M 0 0 L 10 5 L 0 10 z" fill="#f00"/>
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#9294a1"/>
 </marker>`;
 
 
@@ -44,6 +44,6 @@ export const defaultEdge: IEdgeType = {
     endMarker: 'arrow',
     attributes: {
         'fill' : 'none',
-        'stroke':'#f00',
+        'stroke':'#9294a1',
     }
 }

@@ -1,8 +1,18 @@
 import { Graph } from "./graph/ts-graph";
 import { Point } from "./util/geometry/ts-point";
 import { delay } from "./util/misc";
+import { Rect } from "./util/geometry/ts-rect";
+
+interface Sequence {
+    items: Array<Rect | Sequence>;
+}
 
 export class Workflow {
+
+    public xPadding = 80;
+    public yPadding = 80;
+
+    private sequence: Sequence;
 
     private graph: Graph;
 
@@ -14,7 +24,7 @@ export class Workflow {
         this.graph = new Graph(this.el);
 
         const startPoint = new Point(100, 100);
-        const endPoint = new Point(100, 300);
+        const endPoint = startPoint.clone().moveBy(0, 100);
 
         // Addvertices
         const vstart = this.graph.model.addVertex('start', startPoint);
