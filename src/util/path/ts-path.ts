@@ -1,17 +1,37 @@
 import { Point } from "../geometry/ts-point";
+import { Direction } from "./ts-curve";
+import { start } from "../../templates/templates";
 
-export interface IPathHelper {
-    getPathData(): string;
-}
+export abstract class PathHelper {
 
-export class StraightPathHelper implements IPathHelper {
+    protected startPoint: Point;
+    protected endPoint: Point;
 
-    getPathData(): string {
-        return `M${this.start.toString()} L${this.end.toString()}`;
+    protected startDirection: Direction;
+    protected endDirection: Direction;
+
+    abstract getPathData(): string;
+
+    setStart(point: Point) {
+        this.startPoint = point;
     }
 
-    public start: Point;
-    public end: Point;
+    setEnd(point: Point) {
+        this.endPoint = point;
+    }
 
+    setStartDirection(direction: Direction) {
+        this.startDirection = direction;
+        this.endDirection = direction;
+    }
 
+    setEndDirection(direction: Direction) {
+        this.endDirection = direction;
+    }
+}
+
+export class StraightPathHelper extends PathHelper {
+    getPathData(): string {
+        return `M${this.startPoint.toString()} L${this.endPoint.toString()}z`;
+    }
 }

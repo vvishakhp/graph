@@ -1,18 +1,26 @@
-import { Point } from "../util/geometry/ts-point";
 import { Context, UiItemType } from "./ts-context";
-
+import { newId } from "../util/misc";
+import { throttle } from 'lodash';
 
 export abstract class UiItem {
 
-    public el: SVGElement;
+    public el: SVGGraphicsElement;
 
-    public constructor(private ctx: Context, private type: UiItemType) { }
+    public readonly id = newId();
 
-    abstract create(): Promise<any>;
-    abstract updateStyle(): Promise<any>;
-    abstract updateAttr(): Promise<any>;
+    public constructor(protected readonly ctx: Context, private type: UiItemType) { }
 
-    public async addToView() {
+    abstract create();
+    abstract updateStyle();
+    abstract updateAttr();
+
+    public addToView() {
+        this.el.setAttribute('data-id', this.id.toString());
         this.ctx.addUiItem(this.type, this.el);
     }
+
+    public update = throttle(() => {
+        this.updateAttr();
+        this.updateStyle();
+    }, 1000, { trailing: false, leading: true });
 }

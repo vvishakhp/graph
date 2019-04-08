@@ -1,6 +1,13 @@
+import { Context } from "./ts-context";
+import { GraphModel } from "./ts-graph-model";
+import { forEach } from 'lodash';
+import { UiItem } from "./ts-ui-item";
+
 export class Graph {
 
-    private svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    public readonly ctx = new Context();
+
+    public readonly model = new GraphModel(this.ctx);
 
     constructor(private el: string | HTMLElement) {
         if (typeof el === 'string') {
@@ -11,14 +18,16 @@ export class Graph {
             throw new Error('An html element is required to start drawing');
         }
 
-        (this.el as HTMLElement).appendChild(this.svg);
+        (this.el as HTMLElement).appendChild(this.ctx.svg);
     }
 
     public get SVG() {
-        return this.svg;
+        return this.ctx.svg;
     }
 
-    public get model() {
-        return this.model;
+    public updateAll() {
+        forEach([this.model.vertices, this.model.edges, this.model.overlays], (arr: UiItem[]) => forEach(arr, i => {
+            i.update();
+        }));
     }
 }

@@ -69,7 +69,7 @@ export class Rect extends Point {
     }
 
 
-    public mark(svg: SVGSVGElement) {
+    public  mark(svg: SVGSVGElement) {
         [
             this.topLeftVertex,
             this.bottomLeftVertex,

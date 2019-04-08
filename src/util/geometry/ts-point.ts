@@ -7,8 +7,8 @@ export class Point {
         return new Point(this.x, this.y);
     }
 
-    public toString() {
-        return `${this.x} ${this.y}`;
+    public toString(sep: string = ' ') {
+        return `${this.x}${sep}${this.y}`;
     }
 
     public round(n: number) {
@@ -27,7 +27,7 @@ export class Point {
         return this;
     }
 
-    public mark(svg: SVGSVGElement) {
+    public  mark(svg: SVGSVGElement) {
         const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
         c.setAttributeNS(null, 'cx', this.x + '');
         c.setAttributeNS(null, 'cy', this.y + '');
